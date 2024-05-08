@@ -2,9 +2,10 @@ const express = require('express');
 const path = require('path');
 const busboy = require('busboy');
 const AWS = require('aws-sdk');
-const uuidv4 = require('uuid');
+const {v4: uuidv4} = require('uuid');
 const bodyParser = require('body-parser');
 const { log, error } = require('console');
+require('dotenv').config();
 const PORT = process.env.PORT || 5500;
 
 
@@ -26,7 +27,7 @@ app.post('/upload', (req, res) => {
     let key = "";
 
     busboyInstance.on('file', (fieldname, file, filename, encoding, mimetype) => {
-        const key = `uploads/${uuidv4()}_${filename}`;
+        const key = `uploads/${Math.random()}_${filename}`;
 
         const params = {
             Bucket: process.env.AWS_BUCKET_NAME,
